@@ -4,7 +4,7 @@ from quiz.models import Question
 ANSWER_ORDER_OPTIONS = (
     ('content', 'Content'),
     ('none', 'None'),
-    # ('random', 'Random')
+    # ('random', 'Random') подключ
 )
 
 
@@ -13,9 +13,9 @@ class MCQQuestion(Question):
     answer_order = models.CharField(
         max_length=30, null=True, blank=True,
         choices=ANSWER_ORDER_OPTIONS,
-        help_text="The order in which multichoice \
-                    answer options are displayed \
-                    to the user",
+        help_text="Порядок, в котором множественный выбор \
+                    отображаются варианты ответа \
+                    пользователю",
         verbose_name="Answer Order")
 
     def check_if_correct(self, guess):

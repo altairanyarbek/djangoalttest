@@ -39,7 +39,7 @@
 			  <td>{{ sitting.get_percent_correct }}</td>
 			  <td>
 				<a href="{% url 'quiz_marking_detail' pk=sitting.id %}">
-				  {% trans "View details" %}
+				  {% trans "Посмотреть детали" %}
 				</a>
 			</tr>
 
@@ -49,6 +49,6 @@
 
 		</table>
     {% else %}
-        <p>{% trans "There are no matching quizzes" %}.</p>
+        <p>{% trans "Нет подходящих тестов" %}.</p>
     {% endif %}
 {% endblock %}

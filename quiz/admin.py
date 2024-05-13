@@ -18,7 +18,7 @@ class AnswerInline(admin.TabularInline):
 
 class QuizAdminForm(forms.ModelForm):
     """
-        below is from
+        я взял с
         http://stackoverflow.com/questions/11657682/
         django-admin-interface-using-horizontal-filter-with-
         inline-manytomany-field
@@ -76,7 +76,7 @@ class MCQuestionAdmin(admin.ModelAdmin):
 
 class ProgressAdmin(admin.ModelAdmin):
     """
-    to do:
+    зарега:
             create a user section
     """
     search_fields = ('user', 'score', )

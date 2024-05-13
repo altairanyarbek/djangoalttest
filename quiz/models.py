@@ -51,11 +51,11 @@ class Quiz(models.Model):
 
     description = models.TextField(
         verbose_name=_("Description"),
-        blank=True, help_text=_("a description of the quiz"))
+        blank=True, help_text=_("описание теста"))
 
     url = models.SlugField(
         max_length=60, blank=False,
-        help_text=_("a user friendly url"),
+        help_text=_("URL ваш"),
         verbose_name=_("user friendly url"))
 
     category = models.ForeignKey(
@@ -65,54 +65,54 @@ class Quiz(models.Model):
     random_order = models.BooleanField(
         blank=False, default=False,
         verbose_name=_("Random Order"),
-        help_text=_("Display the questions in "
-                    "a random order or as they "
-                    "are set?"))
+        help_text=_("Отобразите вопросы в "
+                    "в случайном порядке или по мере того, как они "
+                    "=установлены?"))
 
     max_questions = models.PositiveIntegerField(
         blank=True, null=True, verbose_name=_("Max Questions"),
-        help_text=_("Number of questions to be answered on each attempt."))
+        help_text=_("Количество вопросов, на которые необходимо ответить при каждой попытке."))
 
     answers_at_end = models.BooleanField(
         blank=False, default=False,
-        help_text=_("Correct answer is NOT shown after question."
-                    " Answers displayed at the end."),
+        help_text=_("Правильный ответ НЕ отображается после вопроса."
+                    " Ответы отображаются в конце."),
         verbose_name=_("Answers at end"))
 
     exam_paper = models.BooleanField(
         blank=False, default=False,
-        help_text=_("If yes, the result of each"
-                    " attempt by a user will be"
-                    " stored. Necessary for marking."),
+        help_text=_("Если да, то результат каждого"
+                    " попытка пользователя будет"
+                    " хранится. Необходимо для маркировки."),
         verbose_name=_("Exam Paper"))
 
     single_attempt = models.BooleanField(
         blank=False, default=False,
-        help_text=_("If yes, only one attempt by"
-                    " a user will be permitted."
-                    " Non users cannot sit this exam."),
+        help_text=_("Если да, то только одна попытка"
+                    " пользователю будет разрешено."
+                    " Непользователи не могут сдавать этот экзамен."),
         verbose_name=_("Single Attempt"))
 
     pass_mark = models.SmallIntegerField(
         blank=True, default=0,
         verbose_name=_("Pass Mark"),
-        help_text=_("Percentage required to pass exam."),
+        help_text=_("Процент, необходимый для сдачи экзамена."),
         validators=[MaxValueValidator(100)])
 
     success_text = models.TextField(
-        blank=True, help_text=_("Displayed if user passes."),
+        blank=True, help_text=_("Отображается, если пользователь проходит."),
         verbose_name=_("Success Text"))
 
     fail_text = models.TextField(
         verbose_name=_("Fail Text"),
-        blank=True, help_text=_("Displayed if user fails."))
+        blank=True, help_text=_("Отображается в случае сбоя пользователя."))
 
     draft = models.BooleanField(
         blank=True, default=False,
         verbose_name=_("Draft"),
-        help_text=_("If yes, the quiz is not displayed"
-                    " in the quiz list and can only be"
-                    " taken by users who can edit"
+        help_text=_("Если да, то тест не отображается"
+                    " в списке тест и может быть только"
+                    " снято пользователями, которые могут редактировать"
                     " quizzes."))
 
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
@@ -125,7 +125,7 @@ class Quiz(models.Model):
             self.exam_paper = True
 
         if self.pass_mark > 100:
-            raise ValidationError('%s is above 100' % self.pass_mark)
+            raise ValidationError('%s от 100' % self.pass_mark)
 
         super(Quiz, self).save(force_insert, force_update, *args, **kwargs)
 
@@ -165,9 +165,9 @@ class ProgressManager(models.Manager):
 
 class Progress(models.Model):
     """
-    Progress is used to track an individual signed in users score on different
-    quiz's and categories
-    Data stored in csv using the format:
+    Прогресс используется для отслеживания результатов отдельных вошедших в систему пользователей на различных
+     викторины и категории
+     Данные хранятся в csv в формате:
         category, score, possible, category, score, possible, ...
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=_("User"), on_delete=models.CASCADE)
@@ -188,12 +188,12 @@ class Progress(models.Model):
     @property
     def list_all_cat_scores(self):
         """
-        Returns a dict in which the key is the category name and the item is
-        a list of three integers.
-        The first is the number of questions correct,
-        the second is the possible best score,
-        the third is the percentage correct.
-        The dict will have one key for every category that you have defined
+        Возвращает словарь, в котором ключом является имя категории, а элементом
+         список из трех целых чисел.
+         Во-первых, это количество правильных вопросов,
+         второй - возможный лучший результат,
+         третий — процент правильных ответов.
+         В словаре будет один ключ для каждой определенной вами категории.
         """
         score_before = self.score
         output = {}
@@ -228,9 +228,9 @@ class Progress(models.Model):
 
     def update_score(self, question, score_to_add=0, possible_to_add=0):
         """
-        Pass in question object, amount to increase score
-        and max possible.
-        Does not return anything.
+       Передайте вопросительный объект, укажите сумму для увеличения счета
+         и максимально возможное.
+         Ничего не возвращает.
         """
         category_test = Category.objects.filter(category=question.category)\
                                         .exists()
@@ -276,8 +276,8 @@ class Progress(models.Model):
 
     def show_exams(self):
         """
-        Finds the previous quizzes marked as 'exam papers'.
-        Returns a queryset of complete exams.
+Находит предыдущие тесты, помеченные как «экзаменационные работы».
+         Возвращает набор запросов полных экзаменов.
         """
         return Sitting.objects.filter(user=self.user, complete=True)
 
@@ -335,16 +335,16 @@ class SittingManager(models.Manager):
 
 class Sitting(models.Model):
     """
-    Used to store the progress of logged in users sitting a quiz.
-    Replaces the session system used by anon users.
-    Question_order is a list of integer pks of all the questions in the
-    quiz, in order.
-    Question_list is a list of integers which represent id's of
-    the unanswered questions in csv format.
-    Incorrect_questions is a list in the same format.
-    Sitting deleted when quiz finished unless quiz.exam_paper is true.
-    User_answers is a json object in which the question PK is stored
-    with the answer the user gave.
+   Используется для хранения прогресса вошедших в систему пользователей, проходящих викторину.
+     Заменяет систему сеансов, используемую анонимными пользователями.
+     Вопрос_order — это список целочисленных блоков всех вопросов в
+     викторина по порядку.
+     Вопрос_список — это список целых чисел, представляющих идентификаторы
+     вопросы без ответов в формате csv.
+     Incorrect_questions — это список в том же формате.
+     Сидение удаляется после завершения теста, если значение quiz.exam_paper не равно true.
+     User_ответы — это объект json, в котором хранится вопрос PK.
+     с ответом, который дал пользователь.
     """
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"), on_delete=models.CASCADE)
@@ -380,9 +380,9 @@ class Sitting(models.Model):
 
     def get_first_question(self):
         """
-        Returns the next question.
-        If no question is found, returns False
-        Does NOT remove the question from the front of the list.
+       Возвращает следующий вопрос.
+         Если вопрос не найден, возвращается False
+         НЕ удаляет вопрос из начала списка.
         """
         if not self.question_list:
             return False
@@ -434,8 +434,8 @@ class Sitting(models.Model):
 
     def add_incorrect_question(self, question):
         """
-        Adds uid of incorrect question to the list.
-        The question object must be passed in.
+Добавляет в список идентификатор неправильного вопроса.
+         Объект вопроса должен быть передан.
         """
         if len(self.incorrect_questions) > 0:
             self.incorrect_questions += ','
@@ -447,8 +447,8 @@ class Sitting(models.Model):
     @property
     def get_incorrect_questions(self):
         """
-        Returns a list of non empty integers, representing the pk of
-        questions
+Возвращает список непустых целых чисел, представляющих ПК
+         вопросы
         """
         return [int(q) for q in self.incorrect_questions.split(',') if q]
 
@@ -502,8 +502,8 @@ class Sitting(models.Model):
 
     def progress(self):
         """
-        Returns the number of questions answered so far and the total number of
-        questions.
+Возвращает количество вопросов, на которые на данный момент даны ответы, и общее количество
+         вопросы.
         """
         answered = len(json.loads(self.user_answers))
         total = self.get_max_score
@@ -512,8 +512,8 @@ class Sitting(models.Model):
 
 class Question(models.Model):
     """
-    Base class for all question types.
-    Shared properties placed here.
+Базовый класс для всех типов вопросов.
+     Общие объекты недвижимости размещены здесь.
     """
 
     quiz = models.ManyToManyField(Quiz,
@@ -532,15 +532,15 @@ class Question(models.Model):
 
     content = models.CharField(max_length=1000,
                                blank=False,
-                               help_text=_("Enter the question text that "
-                                           "you want displayed"),
+                               help_text=_("Введите текст вопроса, который "
+                                           "вы хотите отобразить"),
                                verbose_name=_('Question'))
 
     explanation = models.TextField(max_length=2000,
                                    blank=True,
-                                   help_text=_("Explanation to be shown "
-                                               "after the question has "
-                                               "been answered."),
+                                   help_text=_("Пояснение, которое будет показано "
+                                               "после того, как вопрос был "
+                                               "был дан ответ."),
                                    verbose_name=_('Explanation'))
 
     objects = InheritanceManager()
@@ -603,6 +603,7 @@ def csv_upload_post_save(sender, instance, created, *args, **kwargs):
         print(header_cols, str(len(header_cols)))
         parsed_items = []
 
+#           джанго ишет условие
         '''
         if using a custom signal
         '''
@@ -622,7 +623,7 @@ def csv_upload_post_save(sender, instance, created, *args, **kwargs):
             print(parsed_items)
         csv_uploaded.send(sender=instance, user=instance.user, csv_file_list=parsed_items)
         ''' 
-        if using a model directly
+        если использовать модель напрямую
         for line in reader:
             new_obj = YourModelKlass()
             i = 0

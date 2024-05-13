@@ -4,13 +4,13 @@
 {% load quiz_tags %}
 
 {% block title %} {{ quiz.title}} {% endblock %}
-{% block description %} {% trans "Exam Results for" %} {{ quiz.title }} {% endblock %}
+{% block description %} {% trans "Результаты экзамена для" %} {{ quiz.title }} {% endblock %}
 
 {% block content %}
 
   {% if previous.answers %}
 
-  <p class="muted"><small>{% trans "The previous question" %}:</small></p>
+  <p class="muted"><small>{% trans "Предыдущий вопрос" %}:</small></p>
   <p>{{ previous.previous_question }}</p>
   <p>Your answer was
 	<strong>
@@ -29,13 +29,13 @@
   {% if max_score %}
 
   <div>
-	<h2>{% trans "Exam results" %}</h2>
+	<h2>{% trans "Результаты экзамена " %}</h2>
 	<p>
 	  <small class="muted">{% trans "Exam title" %}: </small>
 	  <strong>{{ quiz.title }}</strong></p>
 
 	<p class="lead">
-	  {% trans "You answered" %} {{ score }} {% trans "questions correctly out of" %} {{ max_score }}, {% trans "giving you" %} {{ percent }} {% trans "percent correct" %}
+	  {% trans "Ты ответил" %} {{ score }} {% trans "вопросы правильно из" %} {{ max_score }}, {% trans "вам выдан" %} {{ percent }} {% trans "процент правильных =" %}
 	</p>
 
 	{% if quiz.pass_mark %}
@@ -45,11 +45,11 @@
 
 	{% endif %}
 
-	<p>{% trans "Review the questions below and try the exam again in the future"%}.</p>
+	<p>{% trans "Просмотрите приведенные ниже вопросы и попробуйте сдать экзамен еще раз в будущем."%}.</p>
 
 	{% if user.is_authenticated %}
 
-	  <p>{% trans "The result of this exam will be stored in your progress section so you can review and monitor your progression" %}.</p>
+	  <p>{% trans "Результат этого экзамена будет сохранен в разделе вашего прогресса, чтобы вы могли просматривать и отслеживать свой прогресс." %}.</p>
 
 	{% endif %}
   </div>

@@ -18,5 +18,5 @@ def csv_file_validator(value):
         header_.pop()
     required_header = REQUIRED_HEADER
     if required_header != header_:
-        raise ValidationError("Invalid File. Please use valid CSV Header and/or Staff Upload Template.")
+        raise ValidationError("Неверный файл. Используйте действительный заголовок CSV и/или шаблон загрузки персонала.")
     return True

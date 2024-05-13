@@ -249,10 +249,10 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, 'You have successfully logged in')
+            messages.success(request, 'Вы успешно вошли в')
             return redirect("index")
         else:
-            messages.success(request, 'Error logging in')
+            messages.success(request, 'Ошибка входа в систему')
             return redirect('login')
     else:
         return render(request, 'login.html', {})
@@ -260,7 +260,7 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    messages.success(request, 'You have been logged out!')
+    messages.success(request, 'Вы вышли из системы!')
     print('logout function working')
     return redirect('login')
 
